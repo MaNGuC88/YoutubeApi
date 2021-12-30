@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">YoutubeApi</string>
+    <string name="no_connection">No Internet Connection</string>
+    <string name="try_again">Try Again</string>
+    <string name="todo">TODO</string>
+    <string name="tv_txt_example">Self Care Before Child Care</string>
+    <string name="tv_video_quantity">32 video series</string>
+</resources>

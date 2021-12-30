@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context=".ui.no_connection.NoConnectionActivity">
+
+    <ImageView
+        android:id="@+id/iv_no_connection"
+        android:layout_width="227.17dp"
+        android:layout_height="227.17dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/no_connection"
+        android:src="@drawable/ic_no_connection" />
+
+    <TextView
+        android:id="@+id/tv_no_connection"
+        android:text="@string/no_connection"
+        android:layout_marginTop="22.14dp"
+        android:layout_centerHorizontal="true"
+        style="@style/tv_style_main" />
+
+    <Button
+        android:id="@+id/btn_try_again"
+        android:text="@string/try_again"
+        style="@style/btn_main_style" />
+
+</RelativeLayout>
