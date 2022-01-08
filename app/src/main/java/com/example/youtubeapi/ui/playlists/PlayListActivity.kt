@@ -2,43 +2,60 @@ package com.example.youtubeapi.ui.playlists
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.example.youtubeapi.base.BaseActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kotlin1_lesson2.extensions.showToast
+import com.example.youtubeapi.core.network.result.Status
+import com.example.youtubeapi.core.ui.BaseActivity
 import com.example.youtubeapi.databinding.ActivityPlaylistsBinding
-import com.example.youtubeapi.models.PlayList
+import com.example.youtubeapi.data.remote.models.Items
+import com.example.youtubeapi.extensions.visible
 import com.example.youtubeapi.ui.no_connection.NoConnectionActivity
 import com.example.youtubeapi.ui.playlist_detail.PlayListDetailActivity
+import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_DESC
+import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_ID
+import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_TITLE
 
 class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBinding>() {
 
-    private lateinit var adapter: PlayListAdapter
-    private lateinit var playList: PlayList
+    private var items = listOf<Items>()
+    private val adapter: PlayListAdapter by lazy {
+        PlayListAdapter(items, this::clickListener)
+    }
 
     override fun initView() {
         super.initView()
-
         supportActionBar?.hide()
-
         viewModel = ViewModelProvider(this).get(PlayListViewModel::class.java)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initViewModel() {
         super.initViewModel()
 
+        viewModel.loading.observe(this) {
+            binding.progressBar.isVisible = it
+        }
+
         if (isOnline(this)) {
             viewModel.getPlayList().observe(this) {
-                playList = it
-                createRecyclerView()
+                when (it.status) {
+                    Status.LOADING -> viewModel.loading.postValue(true)
+                    Status.SUCCESS -> {
+                        viewModel.loading.postValue(false)
+                        initAdapter(it.data?.items as List<Items>)
+                    }
+                    Status.ERROR -> {
+                        viewModel.loading.postValue(false)
+                        showToast(it.message.toString())
+                    }
+                }
             }
         } else {
             openNoConnectionActivity()
@@ -46,10 +63,12 @@ class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBindin
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun createRecyclerView() {
-        adapter = PlayListAdapter(playList, this::passId)
-        binding.recyclerPlaylist.adapter = adapter
-        binding.recyclerPlaylist.setHasFixedSize(true)
+    private fun initAdapter(items: List<Items>) {
+        this.items = items
+        binding.recyclerPlaylist.apply {
+            layoutManager = LinearLayoutManager(this@PlayListActivity)
+            adapter = this@PlayListActivity.adapter
+        }
         adapter.notifyDataSetChanged()
     }
 
@@ -63,8 +82,17 @@ class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBindin
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 viewModel.getPlayList().observe(this) {
-                    playList = it
-                    createRecyclerView()
+                    when (it.status) {
+                        Status.LOADING -> viewModel.loading.postValue(true)
+                        Status.SUCCESS -> {
+                            viewModel.loading.postValue(false)
+                            initAdapter(it.data?.items as List<Items>)
+                        }
+                        Status.ERROR -> {
+                            viewModel.loading.postValue(false)
+                            showToast(it.message.toString())
+                        }
+                    }
                 }
             }
         }
@@ -73,34 +101,14 @@ class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBindin
         return ActivityPlaylistsBinding.inflate(layoutInflater)
     }
 
-    private fun passId(id: String) {
+    private fun clickListener(items: Items) {
         Intent(this, PlayListDetailActivity::class.java).apply {
-            putExtra("id", id)
+            putExtra(PLAYLIST_ID, items.id)
+            putExtra(PLAYLIST_TITLE, items.snippet.title)
+            putExtra(PLAYLIST_TITLE, items.snippet.title)
+            putExtra(PLAYLIST_DESC, items.snippet.description)
             startActivity(this)
         }
     }
 
-    companion object {
-        @RequiresApi(Build.VERSION_CODES.M)
-        fun isOnline(context: Context): Boolean {
-            val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                when {
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
-                }
-            }
-            return false
-        }
-    }
 }

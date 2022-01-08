@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import androidx.annotation.RequiresApi
-import com.example.youtubeapi.base.BaseActivity
-import com.example.youtubeapi.base.BaseViewModel
+import com.example.youtubeapi.core.ui.BaseActivity
+import com.example.youtubeapi.core.ui.BaseViewModel
 import com.example.youtubeapi.databinding.ActivityNoConnectionBinding
 import com.example.youtubeapi.ui.playlists.PlayListActivity
 
@@ -17,7 +17,7 @@ class NoConnectionActivity : BaseActivity<BaseViewModel, ActivityNoConnectionBin
         super.initListener()
 
         binding.btnTryAgain.setOnClickListener {
-            if (PlayListActivity.isOnline(this)) {
+            if (isOnline(this)) {
                 returnToPlayListActivity()
             } else {
                 return@setOnClickListener
@@ -27,7 +27,6 @@ class NoConnectionActivity : BaseActivity<BaseViewModel, ActivityNoConnectionBin
 
     private fun returnToPlayListActivity() {
         Intent().apply {
-            setResult(Activity.RESULT_OK, this)
             finish()
         }
     }

@@ -5,4 +5,9 @@
     <string name="todo">TODO</string>
     <string name="tv_txt_example">Self Care Before Child Care</string>
     <string name="tv_video_quantity">32 video series</string>
+    <string name="playlist">Playlist</string>
+    <string name="video_length">04:14</string>
+    <string name="txt_example_1_cl">Emotional Well-being and Healing Practices for Children</string>
+    <string name="txt_example_2_cl">In this series, we break down the impact of displacement, instability, violence, and trauma in children, and offer exercises to support children in their healing journey.</string>
+    <string name="back">Back</string>
 </resources>
