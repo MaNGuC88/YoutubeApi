@@ -30,14 +30,19 @@ class PlayListDetailActivity :
         PlayListDetailAdapter(list, this::clickListener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
         super.initView()
 
         viewModel = ViewModelProvider(this).get(PlayListDetailViewModel::class.java)
 
         binding.btnBack.setOnClickListener {
-            Intent().apply {
-                finish()
+            if (isOnline(this)) {
+                Intent().apply {
+                    finish()
+                }
+            } else {
+                openNoConnectionActivity()
             }
         }
     }
@@ -75,7 +80,7 @@ class PlayListDetailActivity :
         binding.tvPlDescription.text = description
     }
 
-    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n", "NewApi")
     private fun initAdapter(list: List<Items>) {
         this.list = list
         binding.recyclerVideo.apply {
@@ -85,8 +90,12 @@ class PlayListDetailActivity :
         adapter.notifyDataSetChanged()
         binding.tvPlVideosQty.text = "${list.size} video series"
 
-        binding.fab.setOnClickListener {
-            clickListener(list[0].contentDetails.videoId)
+        if (isOnline(this)) {
+            binding.fab.setOnClickListener {
+                clickListener(list[0].contentDetails.videoId)
+            }
+        } else {
+            openNoConnectionActivity()
         }
     }
 
@@ -116,10 +125,15 @@ class PlayListDetailActivity :
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun clickListener(videoId: String) {
-        Intent(this, VideoActivity::class.java).apply {
-            putExtra(VIDEO_ID, videoId)
-            startActivity(this)
+        if (isOnline(this)) {
+            Intent(this, VideoActivity::class.java).apply {
+                putExtra(VIDEO_ID, videoId)
+                startActivity(this)
+            }
+        } else {
+            openNoConnectionActivity()
         }
     }
 
