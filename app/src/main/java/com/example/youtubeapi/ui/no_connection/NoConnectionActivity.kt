@@ -1,6 +1,5 @@
 package com.example.youtubeapi.ui.no_connection
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,9 +7,11 @@ import androidx.annotation.RequiresApi
 import com.example.youtubeapi.core.ui.BaseActivity
 import com.example.youtubeapi.core.ui.BaseViewModel
 import com.example.youtubeapi.databinding.ActivityNoConnectionBinding
-import com.example.youtubeapi.ui.playlists.PlayListActivity
+import org.koin.android.ext.android.inject
 
 class NoConnectionActivity : BaseActivity<BaseViewModel, ActivityNoConnectionBinding>() {
+
+    override val viewModel: BaseViewModel by inject()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initListener() {

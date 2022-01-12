@@ -29,7 +29,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:autoSizeTextType="uniform"
-        android:text="@string/tv_txt_example"
+        tools:text="@string/tv_txt_example"
         app:layout_constraintStart_toEndOf="@+id/iv_playlist"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="o" />
@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/tv_playlist_qty"
         style="@style/tv_playlist_secondary_style"
-        android:text="@string/tv_video_quantity"
+        tools:text="@string/tv_video_quantity"
         app:layout_constraintStart_toEndOf="@+id/iv_playlist"
         app:layout_constraintTop_toBottomOf="@+id/tv_playlist_title" />
 

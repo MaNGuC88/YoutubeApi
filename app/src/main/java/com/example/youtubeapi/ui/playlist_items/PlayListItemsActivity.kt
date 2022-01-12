@@ -1,4 +1,4 @@
-package com.example.youtubeapi.ui.playlist_detail
+package com.example.youtubeapi.ui.playlist_items
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,33 +8,33 @@ import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin1_lesson2.extensions.showToast
 import com.example.youtubeapi.core.network.result.Status
 import com.example.youtubeapi.core.ui.BaseActivity
 import com.example.youtubeapi.data.remote.models.Items
-import com.example.youtubeapi.databinding.ActivityPlayListDetailBinding
+import com.example.youtubeapi.databinding.ActivityPlaylistItemsBinding
 import com.example.youtubeapi.ui.no_connection.NoConnectionActivity
 import com.example.youtubeapi.ui.video.VideoActivity
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_DESC
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_ID
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_TITLE
 import com.example.youtubeapi.utils.`object`.Constant.VIDEO_ID
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlayListDetailActivity :
-    BaseActivity<PlayListDetailViewModel, ActivityPlayListDetailBinding>() {
+class PlayListItemsActivity :
+    BaseActivity<PlayListItemsViewModel, ActivityPlaylistItemsBinding>() {
 
     private var list = listOf<Items>()
-    private val adapter: PlayListDetailAdapter by lazy {
-        PlayListDetailAdapter(list, this::clickListener)
+    private val adapter: PlayListItemsAdapter by lazy {
+        PlayListItemsAdapter(list, this::clickListener)
     }
+
+    override val viewModel: PlayListItemsViewModel by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
         super.initView()
-
-        viewModel = ViewModelProvider(this).get(PlayListDetailViewModel::class.java)
 
         binding.btnBack.setOnClickListener {
             if (isOnline(this)) {
@@ -84,8 +84,8 @@ class PlayListDetailActivity :
     private fun initAdapter(list: List<Items>) {
         this.list = list
         binding.recyclerVideo.apply {
-            layoutManager = LinearLayoutManager(this@PlayListDetailActivity)
-            adapter = this@PlayListDetailActivity.adapter
+            layoutManager = LinearLayoutManager(this@PlayListItemsActivity)
+            adapter = this@PlayListItemsActivity.adapter
         }
         adapter.notifyDataSetChanged()
         binding.tvPlVideosQty.text = "${list.size} video series"
@@ -137,8 +137,8 @@ class PlayListDetailActivity :
         }
     }
 
-    override fun inflateVB(inflater: LayoutInflater): ActivityPlayListDetailBinding {
-        return ActivityPlayListDetailBinding.inflate(layoutInflater)
+    override fun inflateVB(inflater: LayoutInflater): ActivityPlaylistItemsBinding {
+        return ActivityPlaylistItemsBinding.inflate(layoutInflater)
     }
 
 }

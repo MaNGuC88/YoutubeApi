@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tv_pl_item_title"
         style="@style/tv_style_main"
-        android:text="@string/tv_txt_example"
+        tools:text="@string/tv_txt_example"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_pl_item"
         app:layout_constraintTop_toTopOf="parent" />

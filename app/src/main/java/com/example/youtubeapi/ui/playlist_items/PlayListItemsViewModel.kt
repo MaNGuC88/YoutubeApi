@@ -1,18 +1,18 @@
-package com.example.youtubeapi.ui.playlist_detail
+package com.example.youtubeapi.ui.playlist_items
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.youtubeapi.App
 import com.example.youtubeapi.core.network.result.Resource
 import com.example.youtubeapi.core.ui.BaseViewModel
 import com.example.youtubeapi.data.remote.models.PlayList
+import com.example.youtubeapi.repository.Repository
 
-class PlayListDetailViewModel: BaseViewModel() {
+class PlayListItemsViewModel(private val repository: Repository): BaseViewModel() {
 
     val loading = MutableLiveData<Boolean>()
 
     fun getPlayListItems(id: String): LiveData<Resource<PlayList>> {
-        return App().repository.createPlayListItems(id)
+        return repository.getPlayListItems(id)
     }
 
 }

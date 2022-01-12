@@ -6,12 +6,13 @@ import com.example.youtubeapi.App
 import com.example.youtubeapi.core.network.result.Resource
 import com.example.youtubeapi.core.ui.BaseViewModel
 import com.example.youtubeapi.data.remote.models.PlayList
+import com.example.youtubeapi.repository.Repository
 
-class PlayListViewModel: BaseViewModel() {
+class PlayListViewModel(private val repository: Repository): BaseViewModel() {
 
     val loading = MutableLiveData<Boolean>()
 
     fun getPlayList(): LiveData<Resource<PlayList>> {
-        return App().repository.createPlayList()
+        return repository.getPlayList()
     }
 }

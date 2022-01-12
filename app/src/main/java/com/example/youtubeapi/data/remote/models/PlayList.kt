@@ -29,11 +29,22 @@ data class Snippet(
     var videoOwnerChannelId: String,
     var playlistId: String,
     var position: Int,
-    var resourceId: ResourceId
+    var resourceId: ResourceId,
+    val defaultAudioLanguage: String,
+    val defaultLanguage: String,
 )
 
 data class Status(
-    var privacyStatus: String
+    var privacyStatus: String,
+    val embeddable: String,
+    val failureReason: String,
+    val license: String,
+    val madeForKids: String,
+    val publicStatsViewable: String,
+    val publishAt: String,
+    val rejectionReason: String,
+    val selfDeclaredMadeForKids: String,
+    val uploadStatus: String
 )
 
 data class ResourceId(
@@ -79,7 +90,78 @@ data class Items(
     var status: Status
 )
 
-data class ContentRating(val name: String = "")
+data class ContentRating(
+    val name: String = "",
+    val acbRating: String,
+    val agcomRating: String,
+    val anatelRating: String,
+    val bbfcRating: String,
+    val bfvcRating: String,
+    val bmukkRating: String,
+    val catvRating: String,
+    val catvfrRating: String,
+    val cbfcRating: String,
+    val cccRating: String,
+    val cceRating: String,
+    val chfilmRating: String,
+    val chvrsRating: String,
+    val cicfRating: String,
+    val cnaRating: String,
+    val cncRating: String,
+    val csaRating: String,
+    val cscfRating: String,
+    val czfilmRating: String,
+    val djctqRating: String,
+    val djctqRatingReasons: List<Any>,
+    val ecbmctRating: String,
+    val eefilmRating: String,
+    val egfilmRating: String,
+    val eirinRating: String,
+    val fcbmRating: String,
+    val fcoRating: String,
+    val fmocRating: String,
+    val fpbRating: String,
+    val fpbRatingReasons: List<Any>,
+    val fskRating: String,
+    val grfilmRating: String,
+    val icaaRating: String,
+    val ifcoRating: String,
+    val ilfilmRating: String,
+    val incaaRating: String,
+    val kfcbRating: String,
+    val kijkwijzerRating: String,
+    val kmrbRating: String,
+    val lsfRating: String,
+    val mccaaRating: String,
+    val mccypRating: String,
+    val mcstRating: String,
+    val mdaRating: String,
+    val medietilsynetRating: String,
+    val mekuRating: String,
+    val mibacRating: String,
+    val mocRating: String,
+    val moctwRating: String,
+    val mpaaRating: String,
+    val mpaatRating: String,
+    val mtrcbRating: String,
+    val nbcRating: String,
+    val nbcplRating: String,
+    val nfrcRating: String,
+    val nfvcbRating: String,
+    val nkclvRating: String,
+    val oflcRating: String,
+    val pefilmRating: String,
+    val rcnofRating: String,
+    val resorteviolenciaRating: String,
+    val rtcRating: String,
+    val rteRating: String,
+    val russiaRating: String,
+    val skfilmRating: String,
+    val smaisRating: String,
+    val smsaRating: String,
+    val tvpgRating: String,
+    val ytRating: String
+)
 
 data class ContentDetails(
     var duration: String,
@@ -94,7 +176,9 @@ data class ContentDetails(
     var startAt: String,
     var endAt: String,
     var note: String,
-    var videoPublishedAt: String
+    var videoPublishedAt: String,
+    val hasCustomThumbnail: String,
+    val regionRestriction: RegionRestriction
 )
 
 

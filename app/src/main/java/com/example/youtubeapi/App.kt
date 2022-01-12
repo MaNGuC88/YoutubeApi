@@ -1,13 +1,18 @@
 package com.example.youtubeapi
 
 import android.app.Application
-import com.example.youtubeapi.core.network.RetrofitClient
-import com.example.youtubeapi.repository.Repository
+import com.example.youtubeapi.di.koinModules
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App: Application() {
 
-    val youtubeApi by lazy { RetrofitClient.create() }
+    override fun onCreate() {
+        super.onCreate()
 
-    val repository by lazy { Repository() }
-
+        startKoin {
+            androidContext(this@App)
+            modules(koinModules)
+        }
+    }
 }

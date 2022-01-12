@@ -13,7 +13,7 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseActivity<VM: BaseViewModel,VB: ViewBinding>: AppCompatActivity() {
 
     protected lateinit var binding: VB
-    protected lateinit var viewModel: VM
+    protected abstract val viewModel: VM
 
     protected abstract fun inflateVB(inflater: LayoutInflater) :VB
 

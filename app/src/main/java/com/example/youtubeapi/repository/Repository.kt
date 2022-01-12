@@ -2,33 +2,30 @@ package com.example.youtubeapi.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.example.youtubeapi.App
-import com.example.youtubeapi.BuildConfig
 import com.example.youtubeapi.core.network.result.Resource
-import com.example.youtubeapi.utils.`object`.Constant
+import com.example.youtubeapi.data.remote.RemoteDataSource
 import com.example.youtubeapi.data.remote.models.PlayList
+import com.example.youtubeapi.data.remote.models.Video
 import kotlinx.coroutines.Dispatchers
 
-class Repository {
+class Repository(private val dataSource: RemoteDataSource) {
 
-    fun createPlayList(): LiveData<Resource<PlayList>> = liveData(Dispatchers.IO) {
-        emit(Resource.loading())
-        val response = App().youtubeApi.getPlaylists(Constant.PART, Constant.CHANNEL_ID, BuildConfig.API_KEY, 20)
-        if (response.isSuccessful && response.body() != null) {
-            emit(Resource.success(response.body()))
-        } else {
-            emit(Resource.error(response.message(), response.body(), response.code()))
-        }
+    fun getPlayList(): LiveData<Resource<PlayList>> = liveData(Dispatchers.IO) {
+        emit(Resource.loading()) // emit observes thread and returns data
+        val response = dataSource.getPlaylist()
+        emit(response)
     }
 
-    fun createPlayListItems(id: String): LiveData<Resource<PlayList>> = liveData(Dispatchers.IO) {
+    fun getPlayListItems(id: String): LiveData<Resource<PlayList>> = liveData(Dispatchers.IO) {
         emit(Resource.loading())
-        val response = App().youtubeApi.getPlaylistItems(Constant.PART, id, BuildConfig.API_KEY, 40)
-        if (response.isSuccessful && response.body() != null) {
-            emit(Resource.success(response.body()))
-        } else {
-            emit(Resource.error(response.message(), response.body(), response.code()))
-        }
+        val response = dataSource.getPlayListItems(id)
+        emit(response)
+    }
+
+    fun getVideo(id: String): LiveData<Resource<Video>> = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        val response = dataSource.getVideo(id)
+        emit(response)
     }
 
 }

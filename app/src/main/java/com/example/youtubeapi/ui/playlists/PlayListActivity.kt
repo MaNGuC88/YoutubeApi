@@ -8,19 +8,18 @@ import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin1_lesson2.extensions.showToast
 import com.example.youtubeapi.core.network.result.Status
 import com.example.youtubeapi.core.ui.BaseActivity
 import com.example.youtubeapi.databinding.ActivityPlaylistsBinding
 import com.example.youtubeapi.data.remote.models.Items
-import com.example.youtubeapi.extensions.visible
 import com.example.youtubeapi.ui.no_connection.NoConnectionActivity
-import com.example.youtubeapi.ui.playlist_detail.PlayListDetailActivity
+import com.example.youtubeapi.ui.playlist_items.PlayListItemsActivity
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_DESC
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_ID
 import com.example.youtubeapi.utils.`object`.Constant.PLAYLIST_TITLE
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBinding>() {
 
@@ -29,10 +28,11 @@ class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBindin
         PlayListAdapter(items, this::clickListener)
     }
 
+    override val viewModel: PlayListViewModel by viewModel()
+
     override fun initView() {
         super.initView()
         supportActionBar?.hide()
-        viewModel = ViewModelProvider(this).get(PlayListViewModel::class.java)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -102,7 +102,7 @@ class PlayListActivity : BaseActivity<PlayListViewModel, ActivityPlaylistsBindin
     }
 
     private fun clickListener(items: Items) {
-        Intent(this, PlayListDetailActivity::class.java).apply {
+        Intent(this, PlayListItemsActivity::class.java).apply {
             putExtra(PLAYLIST_ID, items.id)
             putExtra(PLAYLIST_TITLE, items.snippet.title)
             putExtra(PLAYLIST_TITLE, items.snippet.title)

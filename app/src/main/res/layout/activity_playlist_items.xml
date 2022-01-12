@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
     android:fitsSystemWindows="true"
-    tools:context=".ui.playlist_detail.PlayListDetailActivity">
+    tools:context=".ui.playlist_items.PlayListItemsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/main_appbar"
@@ -44,7 +44,7 @@
                     android:layout_marginTop="23dp"
                     android:fitsSystemWindows="true"
                     android:fontFamily="@font/fjalla_one"
-                    android:text="@string/txt_example_1_cl"
+                    tools:text="@string/txt_example_1_cl"
                     android:textColor="@color/txt_color_main"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -57,7 +57,7 @@
                     android:layout_marginTop="8dp"
                     android:fitsSystemWindows="true"
                     android:fontFamily="@font/noto_sans"
-                    android:text="@string/txt_example_2_cl"
+                    tools:text="@string/txt_example_2_cl"
                     android:textColor="@color/txt_color_main"
                     android:textSize="16sp"
                     android:textStyle="bold"
